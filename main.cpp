@@ -1,4 +1,6 @@
 #include <iostream>
+#include <iomanip>
+
 #define True 1
 #define False 0
 
@@ -14,6 +16,16 @@ typedef struct {
     int is_dependent;
 
 } PersonWage;
+
+typedef struct {
+
+    int adjusted_gross_income = -1;
+    int min_sd = -1;
+    int max_sd = -1;
+    int sd = -1;
+    int taxable_income = -1;
+
+} Output;
 
 
 //// 1  : get a example input data
@@ -96,28 +108,40 @@ int get_standard_deduction_dependent(PersonWage *d) {
 }
 
 /// 1
-int get_answer(PersonWage *d) {
+Output *get_answer(PersonWage *d) {
+
+    /*
+    * adjusted_gross_income : Adjusted Gross Income,
+    * min_sd : Minimum Standard Deduction,
+    * max_sd : Maximum Standard Deduction,
+    * sd : Standard Deduction,
+    * taxable_income : Taxable Income.
+    */
+
+    auto o = new Output{};
 
     /// 2
-    auto i = get_adjusted_gross_income(d);
+    o->adjusted_gross_income = get_adjusted_gross_income(d);
 
     /// 3
     if (d->is_dependent) {
-        auto min_sd = get_min_standard_deduction(d);
-        auto max_sd = get_max_standard_deduction(d);
-        auto sd = get_standard_deduction(min_sd, max_sd);
+        o->min_sd = get_min_standard_deduction(d);
+        o->max_sd = get_max_standard_deduction(d);
+        o->sd = get_standard_deduction(o->min_sd, o->max_sd);
 
         /// 12
-        return i - sd;
+        o->taxable_income = o->adjusted_gross_income - o->sd;
 
     } else {
 
         /// 12
-        return i - get_standard_deduction_dependent(d);
+        o->taxable_income = o->adjusted_gross_income - get_standard_deduction_dependent(d);
     }
 
-}
+    return o;
 
+
+}
 
 
 /*
@@ -131,8 +155,16 @@ int get_answer(PersonWage *d) {
 int main() {
 
     auto d = get_input();
-    auto ans = get_answer(d);
-    cout << ans << endl;
+    auto o = get_answer(d);
+
+//    auto o = new Output;
+
+    cout << o->adjusted_gross_income << std::setw(10)
+         << o->max_sd << std::setw(10)
+         << o->min_sd << std::setw(10)
+         << o->sd << std::setw(10)
+         << o->taxable_income << std::setw(10)
+         << endl;
 
 
 }
