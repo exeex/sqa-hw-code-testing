@@ -19,11 +19,11 @@ typedef struct {
 
 typedef struct {
 
-    int adjusted_gross_income = -1;
-    int min_sd = -1;
-    int max_sd = -1;
-    int sd = -1;
-    int taxable_income = -1;
+    int adjusted_gross_income = -1;     //Adjusted Gross Income
+    int min_sd = -1;                    //Minimum Standard Deduction,
+    int max_sd = -1;                    //Maximum Standard Deduction
+    int sd = -1;                        //Standard Deduction
+    int taxable_income = -1;            //Taxable Income
 
 } Output;
 
