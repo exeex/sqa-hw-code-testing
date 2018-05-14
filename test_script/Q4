@@ -1,0 +1,4 @@
+echo "100000 1000 500 1 1" | ../main >> ../test_result/Q4
+echo "100000 1000 500 0 1" | ../main >> ../test_result/Q4
+echo "100000 1000 500 0 0" | ../main >> ../test_result/Q4
+echo "100000 1000 500 1 0" | ../main >> ../test_result/Q4
