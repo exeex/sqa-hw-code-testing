@@ -28,6 +28,7 @@ typedef struct {
 } Output;
 
 
+
 //// 1  : get a example input data
 PersonWage *get_example_input() {
 
@@ -120,24 +121,21 @@ Output *get_answer(PersonWage *d) {
 
     auto o = new Output{};
 
-    /// 2
+    /// 2 Calculate adjusted_gross_income
     o->adjusted_gross_income = get_adjusted_gross_income(d);
 
-    /// 3
+    /// 3 Calculate sd
     if (d->is_dependent) {
         o->min_sd = get_min_standard_deduction(d);
         o->max_sd = get_max_standard_deduction(d);
         o->sd = get_standard_deduction(o->min_sd, o->max_sd);
-
-        /// 12
-        o->taxable_income = o->adjusted_gross_income - o->sd;
-
     } else {
-
-        /// 12
-        o->taxable_income = o->adjusted_gross_income - get_standard_deduction_dependent(d);
+        o->sd = get_standard_deduction_dependent(d);
     }
 
+
+    /// 12 Calculate taxable_income
+    o->taxable_income = o->adjusted_gross_income - o->sd;
     return o;
 
 
