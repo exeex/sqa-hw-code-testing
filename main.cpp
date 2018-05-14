@@ -16,8 +16,8 @@ typedef struct {
 } PersonWage;
 
 
-//// 1  產生隨便一組測試資料
-PersonWage *get_input() {
+//// 1  : get a example input data
+PersonWage *get_example_input() {
 
     auto w = new PersonWage;
     w->wages = 100000;
@@ -25,6 +25,27 @@ PersonWage *get_input() {
     w->compensation = 2000;
     w->marital_status = True;
     w->is_dependent = False;
+
+    return w;
+}
+
+/// 1 : get data from std input
+PersonWage *get_input() {
+
+    int wage, ti, comp, ms, dep;
+    cin >> wage;
+    cin >> ti;
+    cin >> comp;
+    cin >> ms;
+    cin >> dep;
+
+
+    auto w = new PersonWage;
+    w->wages = wage;
+    w->taxable_interest = ti;
+    w->compensation = comp;
+    w->marital_status = ms;
+    w->is_dependent = dep;
 
     return w;
 }
@@ -75,7 +96,7 @@ int get_standard_deduction_dependent(PersonWage *d) {
 }
 
 /// 1
-int get_answer(PersonWage* d) {
+int get_answer(PersonWage *d) {
 
     /// 2
     auto i = get_adjusted_gross_income(d);
@@ -89,20 +110,28 @@ int get_answer(PersonWage* d) {
         /// 12
         return i - sd;
 
-    } else{
+    } else {
 
         /// 12
-        return i - get_standard_deduction_dependent(d) ;
+        return i - get_standard_deduction_dependent(d);
     }
 
 }
 
 
-int main(){
+
+/*
+ * example :
+ * echo "100000 1000 2000 1 0" | ./main
+ * output : 85500
+ *
+ */
+
+
+int main() {
 
     auto d = get_input();
     auto ans = get_answer(d);
-
     cout << ans << endl;
 
 
