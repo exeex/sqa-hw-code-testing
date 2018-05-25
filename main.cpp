@@ -28,7 +28,6 @@ typedef struct {
 } Output;
 
 
-
 //// 1  : get a example input data
 PersonWage *get_example_input() {
 
@@ -54,11 +53,34 @@ PersonWage *get_input() {
 
 
     auto w = new PersonWage;
-    w->wages = wage;
-    w->taxable_interest = ti;
-    w->compensation = comp;
-    w->marital_status = ms;
-    w->is_dependent = dep;
+
+    if (wage >= 0)w->wages = wage;
+    else return NULL;
+
+    if (wage > 100000) cout << "Warning: wage is over 100,000." << endl;
+
+    if (ti >= 0)w->taxable_interest = ti;
+    else {
+        cout << "Invalid taxable interest." << endl;
+        return NULL;
+    }
+
+    if (comp >= 0 && comp < 1000)w->compensation = comp;
+    else {
+        cout<< "Invalid compensation."<< endl;
+        return NULL;
+    }
+
+    if (ms == 0 || ms == 1)w->marital_status = ms;
+    else {
+        cout<< "Invalid marital_status."<< endl;
+        return NULL;
+    }
+    if (dep == 0 || dep == 1)w->is_dependent = dep;
+    else {
+        cout<< "Invalid dependent_status."<< endl;
+        return NULL;
+    }
 
     return w;
 }
@@ -144,7 +166,7 @@ Output *get_answer(PersonWage *d) {
 
 /*
  * example :
- * echo "100000 1000 2000 1 0" | ./main
+ * echo "100001 1000 900 1 0" | ./main
  * output : 85500
  *
  */
@@ -153,6 +175,10 @@ Output *get_answer(PersonWage *d) {
 int main() {
 
     auto d = get_input();
+
+    if(d == NULL)
+        return 1;
+
     auto o = get_answer(d);
 
 //    auto o = new Output;
